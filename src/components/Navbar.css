@@ -1,0 +1,76 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #121212; /* fondo oscuro */
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1); /* sombra sutil clara */
+}
+
+.navbar a {
+    text-decoration: none;
+}
+
+.store-name h1 {
+    margin: 0;
+    color: #eee; /* texto claro */
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-button {
+    background-color: #2c2c54; /* azul oscuro */
+    color: #ccc; /* texto claro */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-button:hover {
+    background-color: #444777; /* hover un poco más claro */
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #1e1e2f; /* fondo menú oscuro */
+    min-width: 160px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+    border-radius: 4px;
+    padding: 0.5rem 0;
+    margin: 0.25rem 0;
+    list-style: none;
+    z-index: 1000;
+}
+
+.dropdown-menu li {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    color: #ddd; /* texto claro */
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-menu li:hover {
+    background-color: #333a66; /* azul oscuro hover */
+}
+
+.dropdown-container {
+    min-width: 200px;
+}
+
+
