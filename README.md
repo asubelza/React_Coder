@@ -1,12 +1,12 @@
 # Acerca del proyecto 👀
 
-> Este es el proyecto final que hice para el curso de React JS en Coderhouse. Se trata de un ecommerce conectado con Firebase para hacer uso de Firestore para el manejo de productos y creación de registros de compras.
+> Proyecto final del curso de React JS en Coderhouse. Se trata de un ecommerce conectado con Firebase para hacer uso de Firestore para el manejo de productos y creación de registros de compras.
 
 ## Instalación usando git clone 🔧
 
 ### Para acceder al proyecto clonándolo, deberás ejecutar en consola: 
 ```sh
-git clone URL # URL= LINK DEL PROYECTO
+git clone URL # URL= https://github.com/asubelza/React_Coder.git
 npm install 
 npm run dev
 ```
