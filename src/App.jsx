@@ -10,6 +10,9 @@ import { useState, useEffect } from'react'
 import Loading from './components/Loading';
 import { ShoppingCartProvider } from './context/ShoppingCartContext';
 
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 
 const App = () => {
 
@@ -32,6 +35,7 @@ const App = () => {
         <BrowserRouter>
           <Navbar />
             <Routes>
+             
               <Route path="/item/:id" element={<ItemDetailContainer />} />
               <Route path="/category/:category" element={<ItemListContainer />} />
               <Route path="/cart" element={<Cart />} />
@@ -39,6 +43,7 @@ const App = () => {
               <Route path="*" element={<NotFound />} />
             </Routes>
         </BrowserRouter>
+        <ToastContainer position="top-right" autoClose={3000} />
       </ShoppingCartProvider>  
     </PrimeReactProvider> 
   

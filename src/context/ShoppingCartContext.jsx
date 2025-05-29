@@ -3,77 +3,88 @@ import { createContext, useState } from 'react'
 export const CartContext = createContext(null)
 
 export const ShoppingCartProvider = ({ children }) => {
+  const [cart, setCart] = useState([])
 
-    const [cart, setCart] = useState([])
+  const addToCart = (product) => {
+    let result = { success: true, message: '' }
 
-    const getTotalQuantity = () => {
-       
-        return cart.reduce((total, item) => total + item.quantity, 0)
-            
-    }
+    setCart((currentCart) => {
+      const existingItem = currentCart.find(item => item.id === product.id)
+      const currentQuantity = existingItem ? existingItem.quantity : 0
+      const newQuantity = currentQuantity + product.quantity
 
-    const addToCart = (product) => {
+      if (newQuantity > product.stock) {
+        result = {
+          success: false,
+          message: `Solo hay ${product.stock} unidades disponibles.`
+        }
+        return currentCart
+      }
 
-        const currentTotal = getTotalQuantity()
-        const wouldExceedLimit = currentTotal + product.quantity > product.stock
+      if (existingItem) {
+        return currentCart.map(item =>
+          item.id === product.id
+            ? { ...item, quantity: newQuantity }
+            : item
+        )
+      }
 
-        if (wouldExceedLimit) {
-            return false
-        } 
+      return [...currentCart, { ...product }]
+    })
 
-        setCart((currentCart) => {
-            const existingItem = currentCart.find(item => item.id === product.id)
+    return result
+  }
 
-            if (existingItem) {
-                return currentCart.map(item => 
-                    item.id === product.id
-                        ? {...item, quantity: item.quantity + product.quantity}
-                        : item
-                     
-                )
+  const removeFromCart = (productId) => {
+    setCart((currentCart) => currentCart.filter(item => item.id !== productId))
+  }
 
+  const updateQuantity = (productId, quantity) => {
+    let result = { success: true, message: '' }
+
+    setCart((currentCart) =>
+      currentCart.map((item) => {
+        if (item.id === productId) {
+          if (quantity > item.stock) {
+            result = {
+              success: false,
+              message: `Solo hay ${item.stock} unidades disponibles.`
             }
+            return item
+          }
 
-            return [...currentCart, {...product }]
-            
-        })
-
-        return true
-
-    }
-
-    const removeFromCart = (productId) => {
-        setCart((currentCart) => currentCart.filter(item => item.id !== productId))
-    }
-
-    // aqui me quede
-    const updateQuantity = (productId, quantity) => {
-        setCart((currentCart) => 
-            currentCart.map((item => 
-            item.id === productId
-                ? {...item, quantity: Math.max(0, quantity)}
-                : item
-        )))
-    }
-
-    const clearCart = () => {
-        setCart([])
-    }
-
-    return (
-        <CartContext.Provider value={{
-            cart, 
-            addToCart,
-            removeFromCart,
-            updateQuantity,
-            clearCart,
-            getTotalQuantity
-        }}>
-            {children}
-        </CartContext.Provider>
+          return {
+            ...item,
+            quantity: Math.max(1, quantity)
+          }
+        }
+        return item
+      })
     )
 
+    return result
+  }
 
+  const clearCart = () => {
+    setCart([])
+  }
+
+  const getTotalQuantity = () => {
+    return cart.reduce((total, item) => total + item.quantity, 0)
+  }
+
+  return (
+    <CartContext.Provider value={{
+      cart,
+      addToCart,
+      removeFromCart,
+      updateQuantity,
+      clearCart,
+      getTotalQuantity
+    }}>
+      {children}
+    </CartContext.Provider>
+  )
 }
 
 export default ShoppingCartProvider

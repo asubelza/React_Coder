@@ -5,6 +5,7 @@ import ItemCount from './ItemCount';
 import './ItemDetail.css';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../context/ShoppingCartContext';
+import { toast } from 'react-toastify'
 
 const ItemDetail = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
@@ -15,11 +16,14 @@ const ItemDetail = ({ product }) => {
   }
 
   const handleAddToCart = () => {
-    const success = addToCart({ ...product, quantity });
-    if (!success) {
-      alert('No hay suficiente stock para esa cantidad.');
+    const result = addToCart({ ...product, quantity })
+  
+    if (!result.success) {
+      toast.error(result.message)
+    } else {
+      toast.success('Producto agregado al carrito')
     }
-  };
+  }
 
   return (
     <Card className="item-detail-card">

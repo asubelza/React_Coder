@@ -1,6 +1,6 @@
 import { useState, useContext, useRef } from 'react'
 import { CartContext } from '../context/ShoppingCartContext'
-import { createOrder } from '../services/orderService'
+import { createOrderWithStockCheck } from '../services/orderService'
 import { useNavigate, Link } from 'react-router-dom'
 import { Toast } from 'primereact/toast';
 import styles from './ContactForm.module.css'
@@ -45,14 +45,14 @@ const ContactForm = () => {
                 total: calculateTotal()
             };
 
-            const id = await createOrder(orderData);
+            const id = await createOrderWithStockCheck(orderData); // <-- aquí
             setOrderId(id);
             clearCart();
         } catch (error) {
             toast.current.show({
                 severity: 'error',
                 summary: 'Error',
-                detail: 'Hubo un error al crear tu orden',
+                detail: error.message || 'Hubo un error al crear tu orden',
                 life: 3000
             });
         }
@@ -100,7 +100,7 @@ const ContactForm = () => {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
-                <button type="submit" className={styles.button}>
+                <button type="submit" className={styles.button} disabled={cart.length === 0}>
                     Enviar y Comprar
                 </button>
             </form>
@@ -109,4 +109,5 @@ const ContactForm = () => {
 }
 
 export default ContactForm;
+
 
